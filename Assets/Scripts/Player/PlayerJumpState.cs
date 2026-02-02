@@ -1,13 +1,11 @@
 using Ebac.StateMachine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerJumpState : StateBase
 {
     PlayerController player;
-
-    bool jumped;
+    float jumpTime = 0.3f;
+    float timer;
 
     public PlayerJumpState(PlayerController player)
     {
@@ -16,21 +14,17 @@ public class PlayerJumpState : StateBase
 
     public override void OnStateEnter()
     {
-        jumped = false;
+        timer = 0f;
+        player.rb.AddForce(Vector3.up * player.jumpForce, ForceMode.Impulse);
     }
 
     public override void OnStateStay()
     {
-        if (!jumped)
+        timer += Time.deltaTime;
+
+        if (timer >= jumpTime)
         {
-            player.rb.AddForce(Vector3.up * player.jumpForce, ForceMode.Impulse);
-            jumped = true;
-        }
-
-        if (player.rb.velocity.y <= 0)
             player.stateMachine.SwitchState(PlayerState.Idle);
+        }
     }
-
-    public override void OnStateExit() { }
 }
-
