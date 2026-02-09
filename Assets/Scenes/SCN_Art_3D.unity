@@ -2589,8 +2589,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 596034780}
-  - component: {fileID: 596034782}
   - component: {fileID: 596034781}
+  - component: {fileID: 596034782}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2628,9 +2628,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 599771233}
   characterController: {fileID: 596034782}
-  speed: 25
-  turnSpeed: 300
-  gravity: 9.8
+  speed: 10
+  turnSpeed: 250
+  gravity: 9
+  jumpSpeed: 7
+  jumpKeyCode: 32
+  keyRun: 304
+  speedRun: 1.5
 --- !u!143 &596034782
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2655,7 +2659,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!95 &599771233 stripped
 Animator:
