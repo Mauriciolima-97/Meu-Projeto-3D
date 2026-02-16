@@ -7,11 +7,14 @@ public class GunBase : MonoBehaviour
     public ProjectileBase prefabProjectile;
 
     public Transform positionToShoot;
-    public float timeBetweenShoot = .3f;
+    public float timeBetweenShoot = .2f;
     public float speed = 50f;
 
     private Coroutine _currentCoroutine;
 
+    protected virtual void Awake()
+    {
+    }
 
 
     protected virtual IEnumerator ShootCoroutine()
@@ -40,6 +43,9 @@ public class GunBase : MonoBehaviour
     public void StopShoot()
     {
         if (_currentCoroutine != null)
+        {
             StopCoroutine(_currentCoroutine);
+            _currentCoroutine = null;
+        }
     }
 }

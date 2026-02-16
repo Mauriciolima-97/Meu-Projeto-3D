@@ -13,63 +13,73 @@ public class GunShootLimit : GunBase
     private float _currentShoots;
     private bool _recharging = false;
 
-    private void Awake()
+    protected override void Awake()
     {
-        GetAllUIs();
+        base.Awake();
+
+        if (uIGunUpdaters == null || uIGunUpdaters.Count == 0)
+        {
+            uIGunUpdaters = FindObjectsOfType<UIGunUpdater>().ToList();
+        }
     }
+
 
     protected override IEnumerator ShootCoroutine()
     {
-
         if (_recharging) yield break;
 
-        while (true)
+        while (_currentShoots < maxShoot)
         {
-            if(_currentShoots < maxShoot)
-            {
-                Shoot();
-                UpdateUI();
-                CheckRecharge();
-                _currentShoots++;
-                yield return new WaitForSeconds(timeBetweenShoot);
-            }
+            Shoot();
+
+            _currentShoots++;
+
+            UpdateUI();
+
+            yield return new WaitForSeconds(timeBetweenShoot);
+
         }
+
+        StartRecharge();
     }
 
-    private void CheckRecharge()
-    {
-        if (_currentShoots < maxShoot)
-        {
-            StopShoot();
-            StartRecharge();
-        }
-    }
     private void StartRecharge()
     {
+        if (_recharging) return;
+
         _recharging = true;
+        StopShoot();
         StartCoroutine(RechargeCoroutine());
     }
 
     IEnumerator RechargeCoroutine()
     {
         float time = 0;
+
         while (time < timeToRecharge)
         {
             time += Time.deltaTime;
-            uIGunUpdaters.ForEach(i => i.UpdateValue(time/timeToRecharge));
-            yield return new WaitForEndOfFrame();
+
+            float normalized = time / timeToRecharge;
+
+            uIGunUpdaters.ForEach(i => i.UpdateRecharge(normalized));
+
+            yield return null;
         }
+
         _currentShoots = 0;
         _recharging = false;
+
+        UpdateUI();
     }
 
     private void UpdateUI()
     {
-      uIGunUpdaters.ForEach(i => i.UpdateValue(maxShoot, _currentShoots));  
+        uIGunUpdaters.ForEach(i => i.UpdateValue(maxShoot, _currentShoots));
     }
 
     private void GetAllUIs()
     {
-        uIGunUpdaters = GameObject.FindObjectsOfType<UIGunUpdater>().ToList();
+        uIGunUpdaters = FindObjectsOfType<UIGunUpdater>().ToList();
     }
 }
