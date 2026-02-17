@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7875906797791593300}
   - component: {fileID: 6284336927853924098}
   - component: {fileID: 5936161502040976148}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 9194649783335098422}
   - component: {fileID: 1853652107901905809}
   - component: {fileID: -1255873263681435605}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PFB_Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

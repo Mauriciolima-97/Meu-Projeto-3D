@@ -26,6 +26,7 @@ public class ProjectileBase : MonoBehaviour
 
         if (damageable != null ) damageable.Damage(damageAmount);
 
+        //Debug.Log("Colidiu com: " + collision.gameObject.name);
         Destroy(gameObject);
     
     }
