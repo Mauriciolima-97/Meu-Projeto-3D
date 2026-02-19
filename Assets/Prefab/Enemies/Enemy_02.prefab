@@ -251,7 +251,7 @@ MonoBehaviour:
   _collider: {fileID: 2240913884171400601}
   flashColor: {fileID: 92798031772767993}
   startLife: 10
-  particleSystem: {fileID: 683823253535879539}
+  _particleSystem: {fileID: 0}
   _currentLife: 0
   _animationBase: {fileID: 5694596638462829537}
   startAnimationDuration: 0.2
