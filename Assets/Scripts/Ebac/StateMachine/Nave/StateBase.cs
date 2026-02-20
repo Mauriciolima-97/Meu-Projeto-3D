@@ -1,3 +1,6 @@
+using Boss;
+using Ebac.StateMachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,7 +11,7 @@ namespace Ebac.StateMachine
 public class StateBase
 {
 
-        public virtual void OnStateEnter()
+        public virtual void OnStateEnter(params object[] objs)
      {
         Debug.Log("OnStateEnter");
      }
@@ -21,6 +24,6 @@ public class StateBase
     {
         Debug.Log("OnStateExit");
     }
-}
+  }
 }
 
