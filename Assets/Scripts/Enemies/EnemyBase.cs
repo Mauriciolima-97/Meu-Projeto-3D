@@ -11,8 +11,10 @@ namespace Enemy
     {
         public Collider _collider;
         public FlashColor flashColor;
-        public float startLife = 10f;
         public ParticleSystem _particleSystem;
+
+        public float startLife = 10f;
+        public bool lookAtPlayer = false;
 
         [SerializeField] private float _currentLife;
 
@@ -24,9 +26,16 @@ namespace Enemy
         public Ease startAnimationEase = Ease.OutBack;
         public bool startWithBornAnimation = true;
 
+        private Player _player;
+
         private void Awake()
         {
             Init();
+        }
+
+        private void Start()
+        {
+            _player = GameObject.FindObjectOfType<Player>();
         }
 
         protected void ResetLife()
@@ -55,12 +64,17 @@ namespace Enemy
 
         public void OnDamage(float f)
         {
+            if (_currentLife <= 0)
+                return;
+
             if (flashColor != null) flashColor.Flash();
             if (_particleSystem != null) _particleSystem.Emit(15);
+
             _currentLife -= f;
 
-            if(_currentLife < 0)
+            if (_currentLife <= 0)
             {
+                _currentLife = 0;
                 Kill();
             }
         }
@@ -77,17 +91,34 @@ namespace Enemy
         }
         #endregion
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                OnDamage(5f);
-            }
-        }
-
         public void Damage(float damage)
         {
+            Debug.Log("Damage");
             OnDamage(damage);
+        }
+
+
+        public void Damage(float damage, Vector3 dir)
+        {
+            OnDamage(damage);
+            transform.DOMove(transform.position + dir * 1f, .1f);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            Player p = collision.transform.GetComponent<Player>();
+
+            if(p != null)
+            {
+                p.Damage(1);
+            }
+        }
+        public virtual void Update()
+        {
+            if (lookAtPlayer)
+            {
+                transform.LookAt(_player.transform.position);
+            }
         }
     }
 

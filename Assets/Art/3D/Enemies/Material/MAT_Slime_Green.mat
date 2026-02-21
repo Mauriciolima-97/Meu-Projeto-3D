@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: MAT_Slime_Green
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 2100000, guid: 545a40a94b22d43449b9aaf0b98a96f3, type: 2}
+  m_Parent: {fileID: 2100000, guid: dc0a741e89d58404793a9a768a8adbfa, type: 2}
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords:
   - _EMISSION

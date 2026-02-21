@@ -7,8 +7,9 @@ public class ProjectileBase : MonoBehaviour
     public float timeToDestroy = 2f;
 
     public int damageAmount = 1;
-
     public float speed = 50f;
+
+    public List<string> tagsToHit;
 
     private void Awake()
     {
@@ -22,12 +23,26 @@ public class ProjectileBase : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        var damageable = collision.transform.GetComponent<IDamageable>();
+        foreach (var t in tagsToHit)
+        {
+            if (collision.transform.CompareTag(t))
+            {
+                var damageable = collision.transform.GetComponent<IDamageable>();
 
-        if (damageable != null ) damageable.Damage(damageAmount);
+                if (damageable != null)
+                {
+                    Vector3 dir = (collision.transform.position - transform.position).normalized;
+                    dir.y = 0;
 
-        //Debug.Log("Colidiu com: " + collision.gameObject.name);
+                    damageable.Damage(damageAmount, dir);
+                }
+
+                break;
+            }
+        }
+
         Destroy(gameObject);
-    
     }
 }
+
+

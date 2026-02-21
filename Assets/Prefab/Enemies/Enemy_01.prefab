@@ -212,9 +212,10 @@ GameObject:
   - component: {fileID: 2921763659195077765}
   - component: {fileID: 2240913884171400601}
   - component: {fileID: 5694596638462829537}
+  - component: {fileID: 1113609283626383084}
   m_Layer: 0
   m_Name: Enemy_01
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -251,7 +252,7 @@ MonoBehaviour:
   _collider: {fileID: 2240913884171400601}
   flashColor: {fileID: 92798031772767993}
   startLife: 10
-  particleSystem: {fileID: 683823253535879539}
+  _particleSystem: {fileID: 683823253535879539}
   _currentLife: 0
   _animationBase: {fileID: 5694596638462829537}
   startAnimationDuration: 0.2
@@ -300,6 +301,33 @@ MonoBehaviour:
     trigger: Attack
   - animationType: 4
     trigger: Death
+--- !u!54 &1113609283626383084
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2871756844041481704}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &3242969999670260401
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +388,7 @@ Transform:
   m_GameObject: {fileID: 3813244682993389049}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 4, z: -4.7573853}
+  m_LocalPosition: {x: 0, y: 4, z: -0.75738525}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6048,5 +6076,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 7430523535874821484}
+  skinnedMeshRenderer: {fileID: 0}
   color: {r: 0.4811321, g: 0.28368637, b: 0.28368637, a: 1}
   duration: 0.1
