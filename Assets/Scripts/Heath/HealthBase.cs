@@ -42,12 +42,23 @@ public class HealthBase : MonoBehaviour
 
     public void Damage(float f)
     {
+        Debug.Log(">>> DANO RECEBIDO: " + f);
+        Debug.Log(">>> VIDA ANTES: " + _currentLife);
+
+        if (_currentLife <= 0)
+            return;
+
         _currentLife -= f;
 
-        if (_currentLife < 0)
+        Debug.Log(">>> VIDA DEPOIS: " + _currentLife);
+
+        if (_currentLife <= 0)
         {
+            _currentLife = 0;
+            Debug.Log(">>> MORREU");
             Kill();
         }
+
         OnDamage?.Invoke(this);
     }
 }

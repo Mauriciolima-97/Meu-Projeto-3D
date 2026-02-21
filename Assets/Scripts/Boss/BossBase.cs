@@ -32,6 +32,11 @@ namespace Boss
         public HealthBase healthBase;
 
         private StateMachine<BossAction> stateMachine;
+        private void Start()
+        {
+            transform.localScale = Vector3.zero;
+        }
+
 
         private void Awake()
         {
@@ -60,16 +65,35 @@ namespace Boss
 
         public void GoToRandomPoint(Action onArrive = null)
         {
-            StartCoroutine(GotoPointCoroutine(wayPoints[UnityEngine.Random.Range(0, wayPoints.Count)], onArrive));
+            StartCoroutine(GotoPointCoroutine(
+                wayPoints[UnityEngine.Random.Range(0, wayPoints.Count)],
+                onArrive));
         }
-
         IEnumerator GotoPointCoroutine(Transform t, Action onArrive = null)
         {
-            while(Vector3.Distance(transform.position, t.position) > 1f)
+            while (Vector3.Distance(transform.position, t.position) > 1f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, t.position, Time.deltaTime * speed);
-                yield return new WaitForEndOfFrame ();
-            } 
+                Vector3 direction = (t.position - transform.position).normalized;
+
+                if (direction != Vector3.zero)
+                {
+                    Quaternion lookRotation = Quaternion.LookRotation(direction);
+                    transform.rotation = Quaternion.Slerp(
+                        transform.rotation,
+                        lookRotation,
+                        Time.deltaTime * 5f
+                    );
+                }
+
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    t.position,
+                    Time.deltaTime * speed
+                );
+
+                yield return null;
+            }
+
             onArrive?.Invoke();
         }
         #endregion
@@ -96,7 +120,12 @@ namespace Boss
         #region ANIMATION
         public void StartInitAnimation()
         {
-            transform.DOScale(0, startAnimationDuration).SetEase(startAnimationEase).From();
+            transform.DOKill(); // mata qualquer tween anterior
+
+            transform.localScale = Vector3.zero; // garante que começa do zero
+
+            transform.DOScale(1f, startAnimationDuration)
+                     .SetEase(startAnimationEase);
         }
         #endregion
 

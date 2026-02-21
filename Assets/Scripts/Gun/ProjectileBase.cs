@@ -23,17 +23,15 @@ public class ProjectileBase : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        foreach(var t in tagsToHit)
+        foreach (var t in tagsToHit)
         {
-            if(collision.transform.tag == t)
+            if (collision.transform.CompareTag(t))
             {
                 var damageable = collision.transform.GetComponent<IDamageable>();
 
                 if (damageable != null)
                 {
-                    Vector3 dir = collision.transform.position = transform.position;
-
-                    dir = -dir.normalized;
+                    Vector3 dir = (collision.transform.position - transform.position).normalized;
                     dir.y = 0;
 
                     damageable.Damage(damageAmount, dir);
@@ -42,7 +40,9 @@ public class ProjectileBase : MonoBehaviour
                 break;
             }
         }
-        //Debug.Log("Colidiu com: " + collision.gameObject.name);
+
         Destroy(gameObject);
     }
 }
+
+

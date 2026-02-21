@@ -22,8 +22,23 @@ namespace Boss
         public override void OnStateEnter(params object[] objs)
         {
             base.OnStateEnter(objs);
+
+            Debug.Log("BOSS INIT ENTROU");
+
             boss.StartInitAnimation();
-            Debug.Log("Boss: " + boss);
+            boss.StartCoroutine(WaitAndWalk());
+        }
+
+        private IEnumerator WaitAndWalk()
+        {
+            yield return new WaitForSeconds(boss.startAnimationDuration);
+            boss.SwitchState(BossAction.WALK);
+        }
+
+        public override void OnStateExit()
+        {
+            base.OnStateExit();
+            boss.StopAllCoroutines();
         }
     }
     public class BossStateWalk : BossStateBase

@@ -64,15 +64,17 @@ namespace Enemy
 
         public void OnDamage(float f)
         {
+            if (_currentLife <= 0)
+                return;
+
             if (flashColor != null) flashColor.Flash();
             if (_particleSystem != null) _particleSystem.Emit(15);
 
-            transform.position -= transform.forward;
-
             _currentLife -= f;
 
-            if(_currentLife < 0)
+            if (_currentLife <= 0)
             {
+                _currentLife = 0;
                 Kill();
             }
         }
@@ -99,7 +101,7 @@ namespace Enemy
         public void Damage(float damage, Vector3 dir)
         {
             OnDamage(damage);
-            transform.DOMove(transform.position = dir, .1f);
+            transform.DOMove(transform.position + dir * 1f, .1f);
         }
 
         private void OnCollisionEnter(Collision collision)
