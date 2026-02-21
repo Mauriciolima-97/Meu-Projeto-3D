@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour//, IDamageable
 {
+    public List<Collider> colliders;
     public Animator animator;
 
     public CharacterController characterController;
@@ -24,6 +26,8 @@ public class Player : MonoBehaviour//, IDamageable
 
     public HealthBase healthBase;
 
+    private bool _alive = true;
+
     private void OnValidate()
     {
         if (healthBase == null) healthBase = GetComponent<HealthBase>();
@@ -34,10 +38,12 @@ public class Player : MonoBehaviour//, IDamageable
         OnValidate();
 
         healthBase.OnDamage += Damage;
+        healthBase.OnDamage += OnKill;
     }
 
     void Update()
     {
+
         transform.Rotate(0, Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime, 0);
 
         var inputAxisVertical = Input.GetAxis("Vertical");
@@ -71,6 +77,17 @@ public class Player : MonoBehaviour//, IDamageable
         animator.SetBool("Run", inputAxisVertical != 0);
     }
     #region LIFE
+
+    private void OnKill(HealthBase h)
+    {
+        if (_alive)
+        {
+            _alive = false;
+            animator.SetTrigger("Death");
+            colliders.ForEach(i => i.enabled = false);
+        }
+
+    }
     public void Damage(HealthBase h)
     {
         flashColors.ForEach(i => i.Flash());
