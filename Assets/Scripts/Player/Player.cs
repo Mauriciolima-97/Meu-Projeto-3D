@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IDamageable
+public class Player : MonoBehaviour//, IDamageable
 {
+    public List<Collider> colliders;
     public Animator animator;
 
     public CharacterController characterController;
@@ -22,10 +24,27 @@ public class Player : MonoBehaviour, IDamageable
     [Header("Flahs")]
     public List<FlashColor> flashColors;
 
+    [Header("Life")]
+    public HealthBase healthBase;
 
+    private bool _alive = true;
+
+    private void OnValidate()
+    {
+        if (healthBase == null) healthBase = GetComponent<HealthBase>();
+    }
+
+    private void Awake()
+    {
+        OnValidate();
+
+        healthBase.OnDamage += Damage;
+        healthBase.OnKill += OnKill;
+    }
 
     void Update()
     {
+
         transform.Rotate(0, Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime, 0);
 
         var inputAxisVertical = Input.GetAxis("Vertical");
@@ -59,14 +78,54 @@ public class Player : MonoBehaviour, IDamageable
         animator.SetBool("Run", inputAxisVertical != 0);
     }
     #region LIFE
-    public void Damage(float damage)
+
+    private void OnKill(HealthBase h)
+    {
+        if (_alive)
+        {
+            _alive = false;
+            animator.SetTrigger("Death");
+            colliders.ForEach(i => i.enabled = false);
+
+            Invoke(nameof(Revive), 3f);
+        }
+
+    }
+
+    private void Revive()
+    {
+        _alive = true;
+        healthBase.ResetLife();
+        animator.SetTrigger("Revive");
+        Respawn();
+        Invoke(nameof(TurnOnColliders), .1f);
+    }
+
+    private void TurnOnColliders()
+    {
+        colliders.ForEach(i => i.enabled = true);
+    }
+    public void Damage(HealthBase h)
     {
         flashColors.ForEach(i => i.Flash());
     }
 
     public void Damage(float damage, Vector3 dir)
     {
-        Damage(damage);
+        //Damage(damage);
     }
     #endregion
+
+    [NaughtyAttributes.Button]
+    public void Respawn()
+    {
+        if (CheckpointManager.Instance.HasCheckpoint())
+        {
+            Vector3 pos = CheckpointManager.Instance.GetPositionFromLastCheckpoint();
+
+            characterController.enabled = false;
+            transform.position = pos;
+            characterController.enabled = true;
+        }
+    }
 }

@@ -32,6 +32,12 @@ namespace Boss
         public HealthBase healthBase;
 
         private StateMachine<BossAction> stateMachine;
+
+        private void OnValidate()
+        {
+            if (healthBase == null) healthBase = GetComponent<HealthBase>();
+        }
+
         private void Start()
         {
             transform.localScale = Vector3.zero;
@@ -41,6 +47,7 @@ namespace Boss
         private void Awake()
         {
             Init();
+            OnValidate();
             healthBase.OnKill += OnBossKill;
         }
 
