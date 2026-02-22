@@ -12,6 +12,8 @@ public class HealthBase : MonoBehaviour, IDamageable
     public Action<HealthBase> OnDamage;
     public Action<HealthBase> OnKill;
 
+    public List<UIFillpdater> uiGunUpdater;
+
     public void Awake()
     {
         Init();
@@ -58,12 +60,21 @@ public class HealthBase : MonoBehaviour, IDamageable
             Debug.Log(">>> MORREU");
             Kill();
         }
-
+        UpdateUI();
         OnDamage?.Invoke(this);
     }
 
     public void Damage(float damage, Vector3 dir)
     {
         Damage(damage);
+    }
+
+    private void UpdateUI()
+    {
+        if (uiGunUpdater != null)
+        {
+            uiGunUpdater.ForEach(i => i.UpdateValue((float)_currentLife / startLife));
+        }
+
     }
 }

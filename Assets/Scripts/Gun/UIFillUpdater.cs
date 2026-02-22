@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System;
 
-public class UIGunUpdater : MonoBehaviour
+public class UIFillpdater : MonoBehaviour
 {
     public Image uiImage;
 
@@ -33,9 +33,13 @@ public class UIGunUpdater : MonoBehaviour
     {
         uiImage.fillAmount = normalized;
     }
-
-    internal void UpdateValue(float v)
+    public void UpdateValue(float normalized)
     {
-        throw new NotImplementedException();
+        if (_currTween != null)
+            _currTween.Kill();
+
+        _currTween = uiImage
+            .DOFillAmount(normalized, duration)
+            .SetEase(ease);
     }
 }
