@@ -75,7 +75,7 @@ public class Player : MonoBehaviour//, IDamageable
             }
 
         characterController.Move(speedVector * Time.deltaTime);
-        animator.SetBool("Run", inputAxisVertical != 0);
+        animator.SetBool("Run", Mathf.Abs(inputAxisVertical) > 0.1f);
     }
     #region LIFE
 
@@ -109,6 +109,7 @@ public class Player : MonoBehaviour//, IDamageable
     {
         flashColors.ForEach(i => i.Flash());
         EffectsManager.Instance.ChangeVignette();
+        ShakeCamera.Instance.Shake(0.1f, 0.1f, 0.2f);
     }
 
     public void Damage(float damage, Vector3 dir)
