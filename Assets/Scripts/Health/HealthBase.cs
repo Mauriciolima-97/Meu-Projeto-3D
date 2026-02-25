@@ -45,20 +45,20 @@ public class HealthBase : MonoBehaviour, IDamageable
 
     public void Damage(float f)
     {
-        Debug.Log(">>> DANO RECEBIDO: " + f);
-        Debug.Log(">>> VIDA ANTES: " + _currentLife);
+       // Debug.Log(">>> DANO RECEBIDO: " + f);
+       // Debug.Log(">>> VIDA ANTES: " + _currentLife);
 
         if (_currentLife <= 0)
             return;
 
         _currentLife -= f;
 
-        Debug.Log(">>> VIDA DEPOIS: " + _currentLife);
+       // Debug.Log(">>> VIDA DEPOIS: " + _currentLife);
 
         if (_currentLife <= 0)
         {
             _currentLife = 0;
-            Debug.Log(">>> MORREU");
+            //Debug.Log(">>> MORREU");
             Kill();
         }
         UpdateUI();
