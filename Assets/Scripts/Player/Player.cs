@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ebac.Core.Singleton;
+using Cloth;
 
 public class Player : Singleton<Player> //, IDamageable
 {
@@ -27,6 +28,9 @@ public class Player : Singleton<Player> //, IDamageable
 
     [Header("Life")]
     public HealthBase healthBase;
+
+    [Space]
+    [SerializeField] private ClothChanger _clothChanger;
 
     private bool _alive = true;
 
@@ -133,7 +137,7 @@ public class Player : Singleton<Player> //, IDamageable
     }
     public void ChangeSpeed(float speed, float duration)
     {
-
+        StartCoroutine(ChangeSpeedCoroutine(speed, duration));
     }
     IEnumerator ChangeSpeedCoroutine(float localSpeed, float duration)
     {
@@ -141,6 +145,19 @@ public class Player : Singleton<Player> //, IDamageable
         speed = localSpeed;
         yield return new WaitForSeconds(duration);
         speed = defaultSpeed;
+
+    }
+
+    public void ChangeTexture(ClothSetup setup, float duration)
+    {
+        StartCoroutine(ChangeTextureCoroutine(setup, duration));
+    }
+
+    IEnumerator ChangeTextureCoroutine(ClothSetup setup, float duration)
+    {
+        _clothChanger.ChangeTexture(setup);
+        yield return new WaitForSeconds(duration);
+        _clothChanger.ResetTexture();
 
     }
 }
