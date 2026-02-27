@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cloth;
 
 namespace Cloth
 {
@@ -16,7 +15,17 @@ namespace Cloth
 
         private void Awake()
         {
-            _defaultTexture = mesh.sharedMaterials[0].GetTexture(shaderIdName);
+            if (mesh == null)
+            {
+                Debug.LogError("Mesh não atribuída no ClothChanger!");
+                return;
+            }
+
+            var mat = mesh.sharedMaterials[0];
+
+            _defaultTexture = mat.GetTexture(shaderIdName);
+
+            mat.EnableKeyword("_EMISSION");
         }
 
         [NaughtyAttributes.Button]
@@ -24,8 +33,15 @@ namespace Cloth
         {
             mesh.sharedMaterials[0].SetTexture(shaderIdName, texture);
         }
+
         public void ChangeTexture(ClothSetup setup)
         {
+            if (setup == null || setup.texture == null)
+            {
+                Debug.LogError("Setup ou Texture null!");
+                return;
+            }
+
             mesh.sharedMaterials[0].SetTexture(shaderIdName, setup.texture);
         }
 
