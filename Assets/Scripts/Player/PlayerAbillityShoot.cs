@@ -12,6 +12,8 @@ public class PlayerAbillityShoot : PlayerAbillityBase
     private GunBase _spawnedGun1;
     private GunBase _spawnedGun2;
 
+    public FlashColor _flashColor;
+
     protected override void Init()
     {
         base.Init();
@@ -41,6 +43,7 @@ public class PlayerAbillityShoot : PlayerAbillityBase
     private void StartShoot()
     {
         _currentGun.StartShoot();
+        _flashColor?.Flash();
     }
 
     private void CancelShoot()
