@@ -6,15 +6,14 @@ namespace Cloth
     {
         public override void Collect()
         {
-            base.Collect();
+            Debug.Log("@@@ Coletou item de cor: " + clothType);
 
-            var setup = ClothManager.Instance.GetSetupByType(clothType);
-
-            if (setup == null)
+            if (ClothManager.Instance != null)
             {
+                ClothManager.Instance.ChangeCloth(clothType);
             }
 
-            Player.Instance.ChangeTexture(setup, duration);
+            base.Collect();
         }
     }
 }

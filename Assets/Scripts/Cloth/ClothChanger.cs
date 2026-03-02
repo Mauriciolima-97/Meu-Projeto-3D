@@ -1,53 +1,66 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Cloth
 {
     public class ClothChanger : MonoBehaviour
     {
-        public SkinnedMeshRenderer mesh;
+        public List<SkinnedMeshRenderer> meshParts;
 
-        public Texture2D texture;
-        public string shaderIdName = "_EmissionMap";
+        [Header("Configuração do Shader")]
+        public string shaderIdName = "_MainTex";
 
-        private Texture _defaultTexture;
+        private Dictionary<SkinnedMeshRenderer, Texture> _defaultTextures = new Dictionary<SkinnedMeshRenderer, Texture>();
 
         private void Awake()
         {
-            if (mesh == null)
+            if (meshParts == null || meshParts.Count == 0)
             {
-                Debug.LogError("Mesh não atribuída no ClothChanger!");
-                return;
+                meshParts = new List<SkinnedMeshRenderer>(GetComponentsInChildren<SkinnedMeshRenderer>());
             }
 
-            var mat = mesh.sharedMaterials[0];
+            foreach (var mesh in meshParts)
+            {
+                if (mesh != null && mesh.sharedMaterial != null)
+                {
 
-            _defaultTexture = mat.GetTexture(shaderIdName);
-
-            mat.EnableKeyword("_EMISSION");
-        }
-
-        [NaughtyAttributes.Button]
-        private void ChangeTexture()
-        {
-            mesh.sharedMaterials[0].SetTexture(shaderIdName, texture);
+                    if (mesh.sharedMaterial.HasProperty(shaderIdName))
+                    {
+                        _defaultTextures[mesh] = mesh.sharedMaterial.GetTexture(shaderIdName);
+                    }
+                }
+            }
         }
 
         public void ChangeTexture(ClothSetup setup)
         {
-            if (setup == null || setup.texture == null)
-            {
-                Debug.LogError("Setup ou Texture null!");
-                return;
-            }
+            if (setup == null || setup.texture == null) return;
 
-            mesh.sharedMaterials[0].SetTexture(shaderIdName, setup.texture);
+            foreach (var mesh in meshParts)
+            {
+                Apply(mesh, setup.texture);
+            }
         }
 
         public void ResetTexture()
         {
-            mesh.sharedMaterials[0].SetTexture(shaderIdName, _defaultTexture);
+            foreach (var mesh in meshParts)
+            {
+                if (_defaultTextures.ContainsKey(mesh))
+                {
+                    Apply(mesh, _defaultTextures[mesh]);
+                }
+            }
+        }
+
+        private void Apply(SkinnedMeshRenderer mesh, Texture tex)
+        {
+            if (mesh == null || tex == null) return;
+
+            MaterialPropertyBlock block = new MaterialPropertyBlock();
+            mesh.GetPropertyBlock(block);
+            block.SetTexture(shaderIdName, tex);
+            mesh.SetPropertyBlock(block);
         }
     }
 }

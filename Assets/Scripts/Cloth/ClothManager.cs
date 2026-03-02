@@ -1,13 +1,14 @@
-using System.Collections;
+using Ebac.Core.Singleton;
 using System.Collections.Generic;
 using UnityEngine;
-using Ebac.Core.Singleton;
+using UnityEngine.SceneManagement;
 
 namespace Cloth
 {
     public enum ClothType
     {
-        SPEED, 
+        PADRAO,
+        SPEED,
         STRONG,
         COLOR
     }
@@ -16,9 +17,74 @@ namespace Cloth
     {
         public List<ClothSetup> clothSetups;
 
-        public ClothSetup GetSetupByType(ClothType clothType)
+        private void Start()
         {
-            return clothSetups.Find(i => i.clothType == clothType);
+            LoadCloth();
+        }
+
+        public void ChangeCloth(ClothType type)
+        {
+            SetCloth(type);
+
+            SaveManager.Instance.Setup.currentCloth = type;
+            SaveManager.Instance.SaveItens();
+        }
+
+        public void SetCloth(ClothType type)
+        {
+            ClothSetup setup = GetSetupByType(type);
+
+            if (setup == null)
+            {
+                return;
+            }
+
+            ApplyTexture(setup);
+        }
+
+        private ClothSetup GetSetupByType(ClothType type)
+        {
+            return clothSetups.Find(i => i.clothType == type);
+        }
+
+        private void ApplyTexture(ClothSetup setup)
+        {
+            // Tenta pegar pela Instance, já que o Player é Singleton
+            Player player = Player.Instance;
+
+            if (player == null) player = FindObjectOfType<Player>();
+            if (player == null) return;
+
+            ClothChanger changer = player.GetComponentInChildren<ClothChanger>();
+
+            if (changer != null)
+            {
+                Debug.Log($"@@@ Tentando mudar para a textura: {setup.texture.name}");
+                changer.ChangeTexture(setup);
+            }
+        }
+
+        private void LoadCloth()
+        {
+            ClothType savedCloth = SaveManager.Instance.Setup.currentCloth;
+
+            SetCloth(savedCloth);
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            LoadCloth();
+            Invoke(nameof(LoadCloth), 0.2f);
         }
     }
 
@@ -29,4 +95,3 @@ namespace Cloth
         public Texture2D texture;
     }
 }
-

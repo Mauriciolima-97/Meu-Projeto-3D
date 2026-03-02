@@ -10,11 +10,13 @@ namespace Itens
         public ItemType itemType;
 
         public string compareTag = "Player";
-        public new ParticleSystem particleSystem;
+        public ParticleSystem _particleSystem;
         public float timeToHide = 3;
         public GameObject graphicItem;
 
-        public Collider collider;
+        public Collider _collider;
+        private bool _collected;
+        public string itemID;
 
         [Header("Sounds")]
         public AudioSource audioSource;
@@ -26,15 +28,18 @@ namespace Itens
 
         private void OnTriggerEnter(Collider collision)
         {
+            if (_collected) return;
+
             if (collision.transform.CompareTag(compareTag))
             {
+                _collected = true;
                 Collect();
             }
         }
 
         protected virtual void Collect()
         {
-            if (collider != null) collider.enabled = false;
+            if (_collider != null) _collider.enabled = false;
             if (graphicItem != null) graphicItem.SetActive(false);
             Invoke("HideObject", timeToHide);
             OnCollect();
@@ -44,14 +49,26 @@ namespace Itens
         {
             gameObject.SetActive(false);
         }
-
-        protected virtual void OnCollect()
+        private void Start()
         {
-            if (particleSystem != null) particleSystem.Play();
-            if (audioSource != null) audioSource.Play();
-            ItemManager.Instance.AddByType(itemType);
-            //Destroy(gameObject);
+            if (SaveManager.Instance.Setup.collectedItems.Contains(itemID))
+            {
+                gameObject.SetActive(false);
+            }
+        }
 
+        protected void OnCollect()
+        {
+            if (!SaveManager.Instance.Setup.collectedItems.Contains(itemID))
+            {
+                SaveManager.Instance.Setup.collectedItems.Add(itemID);
+                SaveManager.Instance.SaveItens();
+            }
+
+            if (_particleSystem != null) _particleSystem.Play();
+            if (audioSource != null) audioSource.Play();
+
+            ItemManager.Instance.AddByType(itemType);
         }
     }
 
