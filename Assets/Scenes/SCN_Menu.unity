@@ -4037,7 +4037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6974922501862063131, guid: da694f1a10ad5e94e9e91527b196760e, type: 3}
       propertyPath: _saveSetup.coins
-      value: 9
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6974922501862063131, guid: da694f1a10ad5e94e9e91527b196760e, type: 3}
       propertyPath: _saveSetup.lastLevel
@@ -4046,6 +4046,18 @@ PrefabInstance:
     - target: {fileID: 6974922501862063131, guid: da694f1a10ad5e94e9e91527b196760e, type: 3}
       propertyPath: _saveSetup.playerName
       value: Mauricio
+      objectReference: {fileID: 0}
+    - target: {fileID: 6974922501862063131, guid: da694f1a10ad5e94e9e91527b196760e, type: 3}
+      propertyPath: _saveSetup.playerPosX
+      value: 390.95554
+      objectReference: {fileID: 0}
+    - target: {fileID: 6974922501862063131, guid: da694f1a10ad5e94e9e91527b196760e, type: 3}
+      propertyPath: _saveSetup.playerPosY
+      value: -8.23693
+      objectReference: {fileID: 0}
+    - target: {fileID: 6974922501862063131, guid: da694f1a10ad5e94e9e91527b196760e, type: 3}
+      propertyPath: _saveSetup.playerPosZ
+      value: 63.892418
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

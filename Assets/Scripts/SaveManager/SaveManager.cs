@@ -8,11 +8,12 @@ using Ebac.Core.Singleton;
 public class SaveManager : Singleton<SaveManager>
 {
     [SerializeField] private SaveSetup _saveSetup;
-    private string _path = Application.streamingAssetsPath + "/save.txt";
+    private string _path => Application.streamingAssetsPath + "/save.txt";
 
     public int lastLevel;
 
     public Action<SaveSetup> FileLoaded;
+    public bool IsNewGame { get; private set; }
 
     public SaveSetup Setup
     {
@@ -23,19 +24,20 @@ public class SaveManager : Singleton<SaveManager>
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
+
+        LoadGame();
     }
-    
+
     private void CreateNewSave()
     {
-
         _saveSetup = new SaveSetup();
-        _saveSetup.lastLevel = 0;
+        _saveSetup.lastLevel = 1;
         _saveSetup.playerName = "Mauricio";
-    }
+        _saveSetup.currentCloth = Cloth.ClothType.PADRAO;
 
-    private void Start()
-    {
-        Invoke(nameof(LoadGame), .1f);
+        _saveSetup.playerPosX = 418f;
+        _saveSetup.playerPosY = -8f;
+        _saveSetup.playerPosZ = 15f;
     }
 
     #region SAVE
@@ -48,8 +50,20 @@ public class SaveManager : Singleton<SaveManager>
     }
     public void SaveItens()
     {
-        _saveSetup.coins = Itens.ItemManager.Instance.GetItemByType(Itens.ItemType.COIN).soInt.value;
-        _saveSetup.health = Itens.ItemManager.Instance.GetItemByType(Itens.ItemType.LIFE_PACK).soInt.value;
+        var itemManager = Itens.ItemManager.Instance;
+        if (itemManager != null)
+        {
+            _saveSetup.coins = itemManager.GetItemByType(Itens.ItemType.COIN).soInt.value;
+            _saveSetup.health = itemManager.GetItemByType(Itens.ItemType.LIFE_PACK).soInt.value;
+        }
+
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            _saveSetup.playerPosX = playerObj.transform.position.x;
+            _saveSetup.playerPosY = playerObj.transform.position.y;
+            _saveSetup.playerPosZ = playerObj.transform.position.z;
+        }
 
         Save();
     }
@@ -88,14 +102,31 @@ public class SaveManager : Singleton<SaveManager>
         }
 
         FileLoaded?.Invoke(_saveSetup);
+        IsNewGame = false;
     }
     public void ResetSave()
     {
         CreateNewSave();
         Save();
+        IsNewGame = true;
+    }
+    [NaughtyAttributes.Button]
+    public void ResetPosition()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            var characterController = playerObj.GetComponent<CharacterController>();
+            if (characterController != null) characterController.enabled = false;
+
+            playerObj.transform.position = Vector3.zero;
+
+            if (characterController != null) characterController.enabled = true;
+        }
     }
 
-    [NaughtyAttributes.Button]
+
+    /*[NaughtyAttributes.Button]
     private void SaveLevelOne()
     {
         SaveLastLevel(1);
@@ -104,7 +135,7 @@ public class SaveManager : Singleton<SaveManager>
     private void SaveLevelFive()
     {
         SaveLastLevel(5);
-    }
+    }*/
 
 }
 
@@ -118,4 +149,13 @@ public class SaveSetup
 
     public string playerName;
     public string saveGame;
+
+    public float playerPosX;
+    public float playerPosY;
+    public float playerPosZ;
+
+    public List<string> collectedItems = new List<string>();
+    public List<string> deadEnemies = new List<string>();
+    public Cloth.ClothType currentCloth = Cloth.ClothType.SPEED;
+
 }

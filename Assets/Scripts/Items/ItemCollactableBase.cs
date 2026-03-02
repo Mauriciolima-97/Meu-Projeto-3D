@@ -16,6 +16,7 @@ namespace Itens
 
         public Collider _collider;
         private bool _collected;
+        public string itemID;
 
         [Header("Sounds")]
         public AudioSource audioSource;
@@ -48,14 +49,26 @@ namespace Itens
         {
             gameObject.SetActive(false);
         }
-
-        protected virtual void OnCollect()
+        private void Start()
         {
+            if (SaveManager.Instance.Setup.collectedItems.Contains(itemID))
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
+        protected void OnCollect()
+        {
+            if (!SaveManager.Instance.Setup.collectedItems.Contains(itemID))
+            {
+                SaveManager.Instance.Setup.collectedItems.Add(itemID);
+                SaveManager.Instance.SaveItens();
+            }
+
             if (_particleSystem != null) _particleSystem.Play();
             if (audioSource != null) audioSource.Play();
-            ItemManager.Instance.AddByType(itemType);
-            //Destroy(gameObject);
 
+            ItemManager.Instance.AddByType(itemType);
         }
     }
 

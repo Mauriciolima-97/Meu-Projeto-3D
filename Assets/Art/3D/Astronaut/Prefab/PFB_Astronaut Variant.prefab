@@ -120,7 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 2346459827316458164}
   skinnedMeshRenderer: {fileID: 0}
-  color: {r: 1, g: 0.8695877, b: 0, a: 1}
+  color: {r: 1, g: 0.9450981, b: 0, a: 1}
   duration: 0.1
   colorParameter: _Color
 --- !u!1001 &4613086030138626190
@@ -466,7 +466,7 @@ PrefabInstance:
     - target: {fileID: 3904918203798849490, guid: 8d575dd232d52cb4ea231be2a029a8ce, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 654bef3b2bab6c74abadff7014af75f6, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4612567715507090428, guid: 8d575dd232d52cb4ea231be2a029a8ce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -89.70562
@@ -656,6 +656,11 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -2919398434156041236, guid: 8d575dd232d52cb4ea231be2a029a8ce, type: 3}
   m_PrefabInstance: {fileID: 4613086030138626190}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &3716322469661451159 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8329406226664518425, guid: 8d575dd232d52cb4ea231be2a029a8ce, type: 3}
+  m_PrefabInstance: {fileID: 4613086030138626190}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4085224391110523284 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8697955827654175002, guid: 8d575dd232d52cb4ea231be2a029a8ce, type: 3}
@@ -699,8 +704,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca6cd7093a829841905374e34f5fc72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: 8517986018976716636}
-  texture: {fileID: 2800000, guid: fbebbf49b5be1634c9b228b1cdcf3e34, type: 3}
+  meshParts:
+  - {fileID: 8517986018976716636}
+  - {fileID: 3716322469661451159}
+  - {fileID: 1457627758691751718}
+  - {fileID: 1691330199028169570}
   shaderIdName: _EmissionMap
 --- !u!1 &6042633999524273919 stripped
 GameObject:

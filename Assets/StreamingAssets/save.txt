@@ -1,7 +1,0 @@
-{
-    "lastLevel": 1,
-    "coins": 3.0,
-    "health": 0.0,
-    "playerName": "Mauricio",
-    "saveGame": ""
-}

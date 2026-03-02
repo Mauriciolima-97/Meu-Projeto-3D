@@ -36,6 +36,42 @@ public class Player : Singleton<Player> //, IDamageable
 
     private bool _jumping = false;
 
+    private void Start()
+    {
+        var setup = SaveManager.Instance.Setup;
+
+
+        if (setup.playerPosX != 0 || setup.playerPosY != 0)
+        {
+            CharacterController cc = GetComponent<CharacterController>();
+            if (cc != null) cc.enabled = false; 
+
+            transform.position = new Vector3(setup.playerPosX, setup.playerPosY, setup.playerPosZ);
+
+            if (cc != null) cc.enabled = true;
+            Debug.Log($"Player carregado na posição: {transform.position}");
+        }
+        if (Cloth.ClothManager.Instance != null)
+        {
+            Cloth.ClothManager.Instance.SetCloth(SaveManager.Instance.Setup.currentCloth);
+        }
+    }
+
+    public void ApplySavePosition()
+    {
+        var setup = SaveManager.Instance.Setup;
+
+        if (setup != null && characterController != null)
+        {
+            characterController.enabled = false;
+
+            transform.position = new Vector3(setup.playerPosX, setup.playerPosY, setup.playerPosZ);
+
+            characterController.enabled = true;
+            Debug.Log("Posição carregada do Save: " + transform.position);
+        }
+    }
+
     private void OnValidate()
     {
         if (healthBase == null) healthBase = GetComponent<HealthBase>();
@@ -135,6 +171,7 @@ public class Player : Singleton<Player> //, IDamageable
     [NaughtyAttributes.Button]
     public void Respawn()
     {
+        Debug.Log("Respawn chamado");
         if (CheckpointManager.Instance.HasCheckpoint())
         {
             Vector3 pos = CheckpointManager.Instance.GetPositionFromLastCheckpoint();
