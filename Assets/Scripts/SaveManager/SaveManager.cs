@@ -2,25 +2,63 @@ using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using Ebac.Core.Singleton;
 
-public class SaveManager : MonoBehaviour
+public class SaveManager : Singleton<SaveManager>
 {
+    private SaveSetup _saveSetup;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+        _saveSetup = new SaveSetup();
+        _saveSetup.lastLevel = 2;
+        _saveSetup.playerName = "Mauricio";
+    }
+
+    #region SAVE
     [NaughtyAttributes.Button]
     private void Save()
     {
-        SaveSetup setup = new SaveSetup();
-        setup.lastLevel = 2;
-        setup.playerName = "Mauricio";
-
-        string setupToJson = JsonUtility.ToJson(setup, true);
+        string setupToJson = JsonUtility.ToJson(_saveSetup, true);
         Debug.Log(setupToJson);
+        SaveFile(setupToJson);
     }
+    public void SaveItens()
+    {
+        _saveSetup.coins = Itens.ItemManager.Instance.GetItemByType(Itens.ItemType.COIN).soInt.value;
+        _saveSetup.coins = Itens.ItemManager.Instance.GetItemByType(Itens.ItemType.LIFE_PACK).soInt.value;
+        Save();
+    }
+    public void SaveName(string text)
+    {
+        _saveSetup.playerName = text;
+        Save();
+    }
+    public void SaveLastLevel(int level)
+    {
+        _saveSetup.lastLevel = level;
+        SaveItens();
+        Save();
+    }
+    #endregion
     private void SaveFile(string json)
     {
-        string path = Application.dataPath + "/save.txt";
+        string path = Application.streamingAssetsPath + "/save.txt";
 
         File.WriteAllText(path, json);
 }
+    [NaughtyAttributes.Button]
+    private void SaveLevelOne()
+    {
+        SaveLastLevel(1);
+    }
+    [NaughtyAttributes.Button]
+    private void SaveLevelFive()
+    {
+        SaveLastLevel(5);
+    }
 
 }
 
@@ -29,6 +67,9 @@ public class SaveManager : MonoBehaviour
 public class SaveSetup
 {
     public int lastLevel;
+    public float coins;
+    public float health;
+
     public string playerName;
     public string saveGame;
 }
