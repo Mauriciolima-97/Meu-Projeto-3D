@@ -10,6 +10,34 @@ public class SoundManager : Singleton<SoundManager>
 
     public AudioSource musicSource;
 
+    [Header("Settings")]
+    private bool _isMuted = false;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _isMuted = PlayerPrefs.GetInt("Muted", 0) == 1;
+        ApplyMute();
+    }
+
+    public void ToggleMute()
+    {
+        _isMuted = !_isMuted;
+
+        PlayerPrefs.SetInt("Muted", _isMuted ? 1 : 0);
+
+        ApplyMute();
+    }
+
+    private void ApplyMute()
+    {
+        AudioListener.pause = _isMuted;
+
+        AudioListener.volume = _isMuted ? 0 : 1;
+
+        Debug.Log("Som Mutado: " + _isMuted);
+    }
+
     public void PlayMusicByType(MusicType musicType)
     {
         var music = GetMusicByType(musicType);

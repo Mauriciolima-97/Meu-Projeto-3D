@@ -58,6 +58,12 @@ public class PlayerAbillityShoot : PlayerAbillityBase
         }
     }
 
+    private void OnDisable()
+    {
+        // Se o script for desativado por qualquer motivo (morte, pause, etc)
+        if (_currentGun != null) _currentGun.StopShoot();
+    }
+
     private void CancelShoot()
     {
         _currentGun.StopShoot();
@@ -65,6 +71,9 @@ public class PlayerAbillityShoot : PlayerAbillityBase
 
     private void SwitchWeapon(int index)
     {
+        // SEGURANÇA: Para o tiro da arma atual antes de trocá-la
+        if (_currentGun != null) _currentGun.StopShoot();
+
         _spawnedGun1.gameObject.SetActive(index == 1);
         _spawnedGun2.gameObject.SetActive(index == 2);
 

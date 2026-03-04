@@ -5,7 +5,6 @@ using UnityEngine;
 public class GunBase : MonoBehaviour
 {
     public ProjectileBase prefabProjectile;
-
     public Transform positionToShoot;
     public float timeBetweenShoot = .2f;
     public float speed = 50f;
@@ -15,6 +14,15 @@ public class GunBase : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip shootClip;
+
+    protected virtual void Awake()
+    {
+
+    }
+    protected virtual void OnDisable()
+    {
+        StopShoot();
+    }
 
     protected void PlayShootSound()
     {
@@ -26,11 +34,6 @@ public class GunBase : MonoBehaviour
         }
     }
 
-    protected virtual void Awake()
-    {
-    }
-
-
     protected virtual IEnumerator ShootCoroutine()
     {
         while (true)
@@ -39,8 +42,11 @@ public class GunBase : MonoBehaviour
             yield return new WaitForSeconds(timeBetweenShoot);
         }
     }
+
     public virtual void Shoot()
     {
+        if (prefabProjectile == null || positionToShoot == null) return;
+
         var projectile = Instantiate(prefabProjectile);
         projectile.transform.position = positionToShoot.position;
         projectile.transform.rotation = positionToShoot.rotation;
@@ -52,7 +58,12 @@ public class GunBase : MonoBehaviour
     public void StartShoot()
     {
         StopShoot();
-        _currentCoroutine = StartCoroutine(ShootCoroutine());
+        // --- TRAVA DE SEGURANÇA 2: Check de Ativação ---
+        // Só começa a atirar se o objeto estiver ativo na cena.
+        if (gameObject.activeInHierarchy)
+        {
+            _currentCoroutine = StartCoroutine(ShootCoroutine());
+        }
     }
 
     public void StopShoot()

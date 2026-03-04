@@ -38,23 +38,24 @@ public class Player : Singleton<Player> //, IDamageable
 
     private void Start()
     {
-        var setup = SaveManager.Instance.Setup;
-
-
-        if (setup.playerPosX != 0 || setup.playerPosY != 0)
+        if (CheckpointManager.Instance != null &&
+            CheckpointManager.Instance.useCheckpointOnStart &&
+            CheckpointManager.Instance.HasCheckpoint())
         {
-            CharacterController cc = GetComponent<CharacterController>();
-            if (cc != null) cc.enabled = false; 
+            Vector3 pos = CheckpointManager.Instance.GetPositionFromLastCheckpoint();
 
-            transform.position = new Vector3(setup.playerPosX, setup.playerPosY, setup.playerPosZ);
+            characterController.enabled = false;
+            transform.position = pos;
+            Physics.SyncTransforms();
+            characterController.enabled = true;
 
-            if (cc != null) cc.enabled = true;
-            Debug.Log($"Player carregado na posição: {transform.position}");
+            Debug.Log("Player carregado no checkpoint: " + pos);
         }
-        if (Cloth.ClothManager.Instance != null)
+        else
         {
-            Cloth.ClothManager.Instance.SetCloth(SaveManager.Instance.Setup.currentCloth);
+            Debug.Log("Iniciando do começo da fase (sem checkpoint)");
         }
+
     }
 
     public void ApplySavePosition()

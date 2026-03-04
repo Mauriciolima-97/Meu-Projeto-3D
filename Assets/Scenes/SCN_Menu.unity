@@ -228,7 +228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5550229047979769340, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
       propertyPath: m_Name
-      value: PFB_Button
+      value: Play
       objectReference: {fileID: 0}
     - target: {fileID: 8137193887349696913, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
       propertyPath: m_text
@@ -432,7 +432,8 @@ RectTransform:
   m_Children:
   - {fileID: 943241987}
   - {fileID: 365740491}
-  m_Father: {fileID: 0}
+  - {fileID: 1659032637}
+  m_Father: {fileID: 1149129669}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1723,7 +1724,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1149129669}
   m_Layer: 0
-  m_Name: ART
+  m_Name: ===ART===
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1750,6 +1751,7 @@ Transform:
   - {fileID: 1013537838}
   - {fileID: 1233842584}
   - {fileID: 1035884386}
+  - {fileID: 173713057}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1189089348
@@ -2282,7 +2284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5550229047979769340, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
       propertyPath: m_Name
-      value: PFB_Button (1)
+      value: Load
       objectReference: {fileID: 0}
     - target: {fileID: 8137193887349696913, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
       propertyPath: m_text
@@ -2864,7 +2866,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 441491212226457181, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 441491212226457181, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 441491212226457181, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1627960299}
+    - target: {fileID: 441491212226457181, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ExitGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 441491212226457181, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuButtonsManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 441491212226457181, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 441491212226457181, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 848942012928919426, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
       propertyPath: m_Pivot.x
@@ -2948,7 +2974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5550229047979769340, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
       propertyPath: m_Name
-      value: PFB_Button (2)
+      value: Exit
       objectReference: {fileID: 0}
     - target: {fileID: 8137193887349696913, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
       propertyPath: m_text
@@ -2960,15 +2986,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8421162544810333892, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
+    - {fileID: 1640092064955788249, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5550229047979769340, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1627960299}
   m_SourcePrefab: {fileID: 100100000, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
 --- !u!224 &1627960297 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 848942012928919426, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
   m_PrefabInstance: {fileID: 1627960296}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1627960298 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5550229047979769340, guid: 7ddbca4a9c097e14eb865b0a777a41ea, type: 3}
+  m_PrefabInstance: {fileID: 1627960296}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1627960299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627960298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a71a6a44cca8b34d84f6d503fecaa10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons: []
+  duration: 0.2
+  delay: 0.05
+  ease: 27
+  gameSceneName: Game
 --- !u!1 &1641408232
 GameObject:
   m_ObjectHideFlags: 0
@@ -3094,12 +3146,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1659032634}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -960, y: -540, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 173713057}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1659032638
 MonoBehaviour:
@@ -4165,8 +4217,6 @@ SceneRoots:
   - {fileID: 1500100156}
   - {fileID: 1393194107}
   - {fileID: 1149129669}
-  - {fileID: 173713057}
-  - {fileID: 1659032637}
   - {fileID: 1239262711}
-  - {fileID: 5259273401267412550}
   - {fileID: 1811941204}
+  - {fileID: 5259273401267412550}
