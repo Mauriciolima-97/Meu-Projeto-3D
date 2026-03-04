@@ -16,7 +16,7 @@ namespace Boss
         DEATH
     }
 
-    public class BossBase : MonoBehaviour
+    public class BossBase : MonoBehaviour, IDamageable
     {
         [Header("Animation")]
         public float startAnimationDuration = .5f;
@@ -49,6 +49,20 @@ namespace Boss
             Init();
             OnValidate();
             healthBase.OnKill += OnBossKill;
+        }
+        public void Damage(float damage)
+        {
+            if (healthBase != null)
+                healthBase.Damage(damage);
+        }
+
+        public void Damage(float damage, Vector3 dir)
+        {
+            if (healthBase != null)
+                healthBase.Damage(damage);
+
+            // Se quiser efeito de knockback:
+            transform.DOMove(transform.position + dir * 1f, .1f);
         }
 
         private void Init()

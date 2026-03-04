@@ -12,7 +12,13 @@ public class PlayerAbillityShoot : PlayerAbillityBase
     private GunBase _spawnedGun1;
     private GunBase _spawnedGun2;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip shootClip;
+
     public FlashColor _flashColor;
+
+
 
     protected override void Init()
     {
@@ -44,6 +50,18 @@ public class PlayerAbillityShoot : PlayerAbillityBase
     {
         _currentGun.StartShoot();
         _flashColor?.Flash();
+
+        if (audioSource != null && shootClip != null)
+        {
+            audioSource.pitch = Random.Range(0.95f, 1.05f);
+            audioSource.PlayOneShot(shootClip);
+        }
+    }
+
+    private void OnDisable()
+    {
+        // Se o script for desativado por qualquer motivo (morte, pause, etc)
+        if (_currentGun != null) _currentGun.StopShoot();
     }
 
     private void CancelShoot()
@@ -53,6 +71,9 @@ public class PlayerAbillityShoot : PlayerAbillityBase
 
     private void SwitchWeapon(int index)
     {
+        // SEGURANÇA: Para o tiro da arma atual antes de trocá-la
+        if (_currentGun != null) _currentGun.StopShoot();
+
         _spawnedGun1.gameObject.SetActive(index == 1);
         _spawnedGun2.gameObject.SetActive(index == 2);
 

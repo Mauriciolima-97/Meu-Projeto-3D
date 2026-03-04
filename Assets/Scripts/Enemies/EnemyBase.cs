@@ -30,7 +30,7 @@ namespace Enemy
         [Header("Events")]
         public UnityEvent OnKillEvent;
 
-        private Player _player;
+        protected Player _player;
         public string enemyID;
 
         private void Awake()
@@ -67,16 +67,17 @@ namespace Enemy
 
         protected virtual void OnKill()
         {
-            if (SaveManager.Instance.Setup.deadEnemies.Contains(enemyID))
+            if (!SaveManager.Instance.Setup.deadEnemies.Contains(enemyID))
             {
-                OnKillEvent?.Invoke();
-                gameObject.SetActive(false);
+                SaveManager.Instance.Setup.deadEnemies.Add(enemyID);
             }
 
-            if (_collider != null) _collider.enabled = false;
-            Destroy(gameObject, 3f);
-            PlayAnimationByTrigger(AnimationType.DEATH);
             OnKillEvent?.Invoke();
+
+            if (_collider != null) _collider.enabled = false;
+
+            PlayAnimationByTrigger(AnimationType.DEATH);
+            Destroy(gameObject, 3f);
         }
 
         public void OnDamage(float f)

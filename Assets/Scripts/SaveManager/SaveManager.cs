@@ -8,7 +8,7 @@ using Ebac.Core.Singleton;
 public class SaveManager : Singleton<SaveManager>
 {
     [SerializeField] private SaveSetup _saveSetup;
-    private string _path => Application.streamingAssetsPath + "/save.txt";
+    private string _path => Application.persistentDataPath + "/save.json";
 
     public int lastLevel;
 
@@ -84,25 +84,44 @@ public class SaveManager : Singleton<SaveManager>
         Debug.Log(_path);
         File.WriteAllText(_path, json);
     }
+    public void ReloadItemsFromSave()
+    {
+        var itemManager = Itens.ItemManager.Instance;
+        if (itemManager != null)
+        {
+            var coinItem = itemManager.GetItemByType(Itens.ItemType.COIN);
+            if (coinItem != null) coinItem.soInt.value = (int)_saveSetup.coins;
+
+            var healthItem = itemManager.GetItemByType(Itens.ItemType.LIFE_PACK);
+            if (healthItem != null) healthItem.soInt.value = (int)_saveSetup.health;
+
+            Debug.Log("Memória resetada com sucesso para o estado do último Save!");
+        }
+    }
     [NaughtyAttributes.Button]
     public void LoadGame()
     {
-        string fileloaded = "";
-
         if (File.Exists(_path))
         {
-            fileloaded = File.ReadAllText(_path);
+            string fileloaded = File.ReadAllText(_path);
             _saveSetup = JsonUtility.FromJson<SaveSetup>(fileloaded);
-            lastLevel = _saveSetup.lastLevel;
-        }
-        else
-        {
-            CreateNewSave();
-            Save();
-        }
 
-        FileLoaded?.Invoke(_saveSetup);
-        IsNewGame = false;
+            var itemManager = Itens.ItemManager.Instance;
+            if (itemManager != null)
+            {
+                itemManager.GetItemByType(Itens.ItemType.COIN).soInt.value = (int)_saveSetup.coins;
+                itemManager.GetItemByType(Itens.ItemType.LIFE_PACK).soInt.value = (int)_saveSetup.health;
+            }
+        }
+    }
+    public void ClearCurrentSessionData()
+    {
+        var itemManager = Itens.ItemManager.Instance;
+        if (itemManager != null)
+        {
+            itemManager.GetItemByType(Itens.ItemType.COIN).soInt.value = 0;
+            itemManager.GetItemByType(Itens.ItemType.LIFE_PACK).soInt.value = 3;
+        }
     }
     public void ResetSave()
     {
@@ -124,19 +143,6 @@ public class SaveManager : Singleton<SaveManager>
             if (characterController != null) characterController.enabled = true;
         }
     }
-
-
-    /*[NaughtyAttributes.Button]
-    private void SaveLevelOne()
-    {
-        SaveLastLevel(1);
-    }
-    [NaughtyAttributes.Button]
-    private void SaveLevelFive()
-    {
-        SaveLastLevel(5);
-    }*/
-
 }
 
 

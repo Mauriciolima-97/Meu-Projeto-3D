@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 1557162851140643717}
   - component: {fileID: 1761504374805274830}
   - component: {fileID: 602450469112320349}
+  - component: {fileID: 1449630744657695167}
   m_Layer: 0
   m_Name: PFB_EndGame
   m_TagString: Untagged
@@ -218,3 +219,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endGameObjects: []
   currentLevel: 1
+--- !u!114 &1449630744657695167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7902289736263377272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 479bc82904babb2448474e32fa1f43b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTag: Player
+  nextSceneName: SCN_Art_3D_Level_02

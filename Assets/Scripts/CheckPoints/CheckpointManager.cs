@@ -9,10 +9,16 @@ public class CheckpointManager : Singleton<CheckpointManager>
 
     public List<CheckpointBase> checkpoints;
 
-    public bool HasCheckpoint()
+    public bool useCheckpointOnStart = true;
+    private object _lastCheckpoint;
+
+    public void ResetCheckpoint()
+
     {
-        return lastCheckPointKey > 0;
+        lastCheckPointKey = 0;
     }
+
+    public bool HasCheckpoint() => useCheckpointOnStart && _lastCheckpoint != null;
 
     public void SaveCheckPoint(int i)
     {
@@ -25,6 +31,10 @@ public class CheckpointManager : Singleton<CheckpointManager>
     public Vector3 GetPositionFromLastCheckpoint()
     {
         var checkpoint = checkpoints.Find(i => i.Key == lastCheckPointKey);
-        return checkpoint.transform.position;
+
+        if (checkpoint != null)
+            return checkpoint.transform.position;
+
+        return Vector3.zero;
     }
 }

@@ -9,7 +9,7 @@ public class CheckpointBase : MonoBehaviour
 
     private bool checkpointActived = false;
 
-    private string checkpointKey = "CheckpointKey";
+    //private string checkpointKey = "CheckpointKey";
 
     private void OnTriggerEnter(Collider other)
     {
@@ -41,10 +41,10 @@ public class CheckpointBase : MonoBehaviour
 
     private void SaveCheckpoint()
     {
-        if (PlayerPrefs.GetInt(checkpointKey, 0) > Key)
-        PlayerPrefs.SetInt(checkpointKey, Key);
-
         CheckpointManager.Instance.SaveCheckPoint(Key);
+
+        // SALVA POSIÇÃO REAL
+        SaveManager.Instance.SaveItens();
 
         checkpointActived = true;
     }

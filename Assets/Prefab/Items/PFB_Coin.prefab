@@ -129,12 +129,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c51d1e7b739a54096df2040f7cb1a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sfxType: 0
   itemType: 0
   compareTag: Player
-  particleSystem: {fileID: 0}
+  _particleSystem: {fileID: 0}
   timeToHide: 3
   graphicItem: {fileID: 1904912523594032229}
-  collider: {fileID: 1519224113014333797}
+  _collider: {fileID: 0}
+  itemID: 1
   audioSource: {fileID: 0}
 --- !u!135 &1519224113014333797
 SphereCollider:
@@ -155,5 +157,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.98906916
-  m_Center: {x: 0.32, y: 0.08, z: 0}
+  m_Radius: 1.0925262
+  m_Center: {x: -0.04421997, y: -0.019448042, z: 0.035333633}
