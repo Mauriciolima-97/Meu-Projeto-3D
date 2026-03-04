@@ -2,11 +2,13 @@ using Itens;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SoundManager;
 
 namespace Itens
 {
     public class ItemCollactableBase : MonoBehaviour
     {
+        public SFXType sfxType;
         public ItemType itemType;
 
         public string compareTag = "Player";
@@ -32,13 +34,21 @@ namespace Itens
 
             if (collision.transform.CompareTag(compareTag))
             {
-                _collected = true;
                 Collect();
             }
         }
 
+        private void PlaySFX()
+        {
+            SFXPool.Instance.Play(sfxType);
+        }
+
         protected virtual void Collect()
         {
+            if (_collected) return;
+            _collected = true;
+
+            PlaySFX();
             if (_collider != null) _collider.enabled = false;
             if (graphicItem != null) graphicItem.SetActive(false);
             Invoke("HideObject", timeToHide);

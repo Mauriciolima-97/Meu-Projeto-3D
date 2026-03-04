@@ -12,6 +12,20 @@ public class GunBase : MonoBehaviour
 
     private Coroutine _currentCoroutine;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip shootClip;
+
+    protected void PlayShootSound()
+    {
+        if (audioSource != null && shootClip != null)
+        {
+            audioSource.pitch = 1f;
+            audioSource.volume = 1f;
+            audioSource.PlayOneShot(shootClip, 1f);
+        }
+    }
+
     protected virtual void Awake()
     {
     }
@@ -27,13 +41,12 @@ public class GunBase : MonoBehaviour
     }
     public virtual void Shoot()
     {
-
         var projectile = Instantiate(prefabProjectile);
         projectile.transform.position = positionToShoot.position;
         projectile.transform.rotation = positionToShoot.rotation;
         projectile.speed = speed;
 
-        //ShakeCamera.Instance.Shake();
+        PlayShootSound();
     }
 
     public void StartShoot()

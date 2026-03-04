@@ -18,5 +18,7 @@ public class SpreadGun : GunShootLimit
             projectile.transform.rotation = spreadRotation;
             projectile.speed = speed;
         }
+
+        PlayShootSound();
     }
 }

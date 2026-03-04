@@ -71,6 +71,7 @@ public class GunShootLimit : GunBase
         _recharging = false;
 
         UpdateUI();
+        StartShoot();
     }
 
     private void UpdateUI()
